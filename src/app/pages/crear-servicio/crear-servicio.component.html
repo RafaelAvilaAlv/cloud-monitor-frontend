@@ -1,0 +1,14 @@
+<h2>Registrar nuevo servicio</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="registrarServicio()">
+  <label>Nombre:</label>
+  <input type="text" formControlName="name" required /><br />
+
+  <label>Descripción:</label>
+  <input type="text" formControlName="cloud" required /><br />
+
+  <label>URL:</label>
+  <input type="text" formControlName="url" required /><br />
+
+  <button type="submit" [disabled]="formulario.invalid">Registrar</button>
+</form>

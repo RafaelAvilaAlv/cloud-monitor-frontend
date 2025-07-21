@@ -1,0 +1,155 @@
+/* estilos.component.css */
+:host {
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.titulo-principal {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0.2em;
+}
+
+.descripcion {
+  margin-bottom: 1.5em;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primario {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primario:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.seccion {
+  margin-top: 40px;
+}
+
+.seccion-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.tabla-estilo {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.tabla-estilo thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.tabla-estilo th,
+.tabla-estilo td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla-estilo tbody tr:hover {
+  background-color: #f1f9ff;
+}
+
+.tabla-estilo tbody tr.activa {
+  font-weight: 600;
+  background-color: #d4edda;
+}
+
+.tabla-estilo tbody tr.inactiva {
+  color: #888;
+  background-color: #f8d7da;
+  font-style: italic;
+}
+
+.mensaje-vacio {
+  font-style: italic;
+  color: #666;
+  font-size: 1rem;
+  padding: 1em 0;
+}
+
+.formulario-alerta {
+  max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background-color: #f7f9fc;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.form-group {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #222;
+}
+
+.form-group input[type="text"],
+.form-group input[type="datetime-local"],
+.form-group select {
+  padding: 8px 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="datetime-local"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px #80bdff;
+}
+
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox-group label {
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}

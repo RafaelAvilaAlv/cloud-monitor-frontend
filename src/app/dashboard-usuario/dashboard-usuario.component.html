@@ -1,0 +1,236 @@
+<h2 class="titulo-principal">Bienvenido Usuario</h2>
+<p class="descripcion">Aquí puedes visualizar tus métricas y alertas.</p>
+
+<button class="btn btn-primario" (click)="router.navigate(['/crear-servicio'])">
+  Crear nuevo servicio
+</button>
+
+<!-- Sección de Alertas -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Alertas registradas</h3>
+
+  <div *ngIf="alertas.length > 0; else sinAlertas">
+    <table class="tabla-estilo">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Mensaje</th>
+          <th>Severidad</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alerta of alertas" [class.activa]="alerta.active" [class.inactiva]="!alerta.active">
+          <td>{{ alerta.tipo | titlecase }}</td>
+          <td>{{ alerta.message }}</td>
+          <td>{{ alerta.severidad | titlecase }}</td>
+          <td>{{ alerta.fecha | date: 'short' }}</td>
+          <td>{{ alerta.active ? 'Activa' : 'Inactiva' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinAlertas>
+    <p class="mensaje-vacio">No se encontraron alertas registradas.</p>
+  </ng-template>
+</section>
+
+<!-- Botón para mostrar/ocultar formulario -->
+<section class="seccion">
+  <button class="btn btn-secundario" (click)="mostrarFormularioAlerta = !mostrarFormularioAlerta">
+    {{ mostrarFormularioAlerta ? 'Cancelar' : 'Agregar nueva alerta' }}
+  </button>
+</section>
+
+<!-- Sección de Nueva Alerta -->
+<section class="seccion" *ngIf="mostrarFormularioAlerta">
+  <h3 class="seccion-titulo">Agregar nueva alerta</h3>
+  <form [formGroup]="formularioAlerta" (ngSubmit)="crearAlerta()" class="formulario-alerta" novalidate>
+    <!-- Campos del formulario (igual que antes)... -->
+    <!-- Servicio -->
+    <div class="form-group">
+      <label for="service_id">Servicio</label>
+      <select id="service_id" formControlName="service_id" required>
+        <option value="" disabled>Selecciona un servicio</option>
+        <option *ngFor="let servicio of servicios" [value]="servicio.ID">{{ servicio.name }}</option>
+      </select>
+      <div *ngIf="formularioAlerta.get('service_id')?.invalid && (formularioAlerta.get('service_id')?.touched || formularioAlerta.get('service_id')?.dirty)">
+        <small style="color:red">Debe seleccionar un servicio</small>
+      </div>
+    </div>
+
+    <!-- Mensaje -->
+    <div class="form-group">
+      <label for="message">Mensaje</label>
+      <input
+        id="message"
+        type="text"
+        formControlName="message"
+        placeholder="Mensaje"
+        maxlength="150"
+        required
+      />
+      <div *ngIf="formularioAlerta.get('message')?.invalid && formularioAlerta.get('message')?.touched">
+        <small style="color:red">El mensaje es obligatorio</small>
+      </div>
+    </div>
+
+    <!-- Tipo -->
+    <div class="form-group">
+      <label for="tipo">Tipo</label>
+      <select id="tipo" formControlName="tipo" required>
+        <option value="" disabled>-- Selecciona un tipo --</option>
+        <option value="caida">Caída</option>
+        <option value="cpu">CPU</option>
+        <option value="ram">RAM</option>
+      </select>
+      <div *ngIf="formularioAlerta.get('tipo')?.invalid && formularioAlerta.get('tipo')?.touched">
+        <small style="color:red">Debe seleccionar un tipo</small>
+      </div>
+    </div>
+
+    <!-- Severidad -->
+    <div class="form-group">
+      <label for="severidad">Severidad</label>
+      <select id="severidad" formControlName="severidad" required>
+        <option value="" disabled>-- Selecciona severidad --</option>
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
+      </select>
+      <div *ngIf="formularioAlerta.get('severidad')?.invalid && formularioAlerta.get('severidad')?.touched">
+        <small style="color:red">Debe seleccionar una severidad</small>
+      </div>
+    </div>
+
+    <!-- Fecha -->
+    <div class="form-group">
+      <label for="fecha">Fecha y hora</label>
+      <input id="fecha" type="datetime-local" formControlName="fecha" required />
+      <div *ngIf="formularioAlerta.get('fecha')?.invalid && formularioAlerta.get('fecha')?.touched">
+        <small style="color:red">Debe ingresar una fecha válida</small>
+      </div>
+    </div>
+
+    <!-- Activo -->
+    <div class="form-group checkbox-group">
+      <label>
+        <input type="checkbox" formControlName="active" />
+        Activa
+      </label>
+    </div>
+
+    <!-- Botón de Guardar -->
+    <button class="btn btn-primario" type="submit" [disabled]="formularioAlerta.invalid">
+      Guardar
+    </button>
+  </form>
+</section>
+
+<!-- Sección de Métricas -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Métricas registradas</h3>
+
+  <div *ngIf="metrics.length > 0; else sinMetricas">
+    <table class="tabla-estilo">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Servicio</th>
+          <th>Nombre</th>
+          <th>Valor</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let metric of metrics">
+          <td>{{ metric.id }}</td>
+          <td>{{ metric.serviceID }}</td>
+          <td>{{ metric.name }}</td>
+          <td>{{ metric.value }}</td>
+          <td>{{ metric.timestamp | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinMetricas>
+    <p class="mensaje-vacio">No se encontraron métricas registradas.</p>
+  </ng-template>
+</section>
+
+<!-- Sección de Servicios -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Servicios registrados</h3>
+
+  <div *ngIf="servicios.length > 0; else sinServicios">
+    <table class="tabla-estilo">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cloud</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios">
+          <td>{{ servicio.name }}</td>
+          <td>{{ servicio.cloud }}</td>
+          <td>
+            <a [href]="servicio.url" target="_blank" rel="noopener">{{ servicio.url }}</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinServicios>
+    <p class="mensaje-vacio">No se encontraron servicios registrados.</p>
+  </ng-template>
+</section>
+
+<!-- Sección de Logs -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Logs por servicio</h3>
+
+  <div class="form-group">
+    <label for="servicio-log-select">Selecciona un servicio:</label>
+    <select
+      id="servicio-log-select"
+      [(ngModel)]="servicioSeleccionado"
+      name="servicioSeleccionado"
+      (change)="cargarLogsPorServicio()"
+      required
+    >
+      <option [ngValue]="null" disabled selected>-- Selecciona un servicio --</option>
+      <option *ngFor="let servicio of servicios" [ngValue]="servicio.ID">
+        {{ servicio.name }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="logs.length > 0; else sinLogs">
+    <table class="tabla-estilo">
+      <thead>
+        <tr>
+          <th>Mensaje</th>
+          <th>Nivel</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.Message }}</td>
+          <td>{{ log.Level }}</td>
+          <td>{{ log.Timestamp | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinLogs>
+    <p class="mensaje-vacio">No se encontraron logs para el servicio seleccionado.</p>
+  </ng-template>
+</section>
