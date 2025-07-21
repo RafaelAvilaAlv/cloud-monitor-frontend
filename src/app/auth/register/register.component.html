@@ -1,0 +1,26 @@
+<!-- src/app/auth/register/register.component.html -->
+<div class="register-container">
+    <h2>Formulario de Registro</h2>
+    <form [formGroup]="formularioRegistro" (ngSubmit)="registrarse()">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input id="nombre" type="text" formControlName="nombre" placeholder="Ingrese su nombre" />
+      </div>
+  
+      <div class="form-group">
+        <label for="correoRegistro">Correo:</label>
+        <input id="correoRegistro" type="email" formControlName="correo" placeholder="Ingrese su correo" />
+      </div>
+  
+      <div class="form-group">
+        <label for="contrasenaRegistro">Contraseña:</label>
+        <input id="contrasenaRegistro" type="password" formControlName="contrasena" placeholder="Ingrese su contraseña" />
+      </div>
+  
+  
+      <button type="submit" [disabled]="formularioRegistro.invalid">Registrarse</button>
+    </form>
+  
+    <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+  </div>
+  

@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/auth.service';
 import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,6 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class LoginComponent {
   formularioLogin: FormGroup;
-  formularioRegistro: FormGroup;
-  mensajeError: string = '';
-  mensajeRegistroError: string = '';
-  mostrarRegistro: boolean = false; // controla despliegue del formulario registro
 
   constructor(
     private fb: FormBuilder,
@@ -25,12 +22,6 @@ export class LoginComponent {
     private authService: AuthService
   ) {
     this.formularioLogin = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required]
-    });
-
-    this.formularioRegistro = this.fb.group({
-      nombre: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       contrasena: ['', Validators.required]
     });
@@ -54,31 +45,24 @@ export class LoginComponent {
           localStorage.setItem('user_id', decoded.user_id);
         }
 
-        this.router.navigate(['/dashboard-usuario']);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Bienvenido!',
+          text: 'Inicio de sesión exitoso',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        setTimeout(() => {
+          this.router.navigate(['/dashboard-usuario']);
+        }, 2000);
       },
       error: () => {
-        this.mensajeError = 'Credenciales inválidas';
-      }
-    });
-  }
-
-  registrarse() {
-    if (this.formularioRegistro.invalid) return;
-
-    const nuevoUsuario = {
-      nombre: this.formularioRegistro.value.nombre,
-      email: this.formularioRegistro.value.correo,
-      password: this.formularioRegistro.value.contrasena
-    };
-
-    this.authService.registro(nuevoUsuario).subscribe({
-      next: () => {
-        alert('¡Registro exitoso! Ahora puede iniciar sesión.');
-        this.formularioRegistro.reset();
-        this.mostrarRegistro = false; // oculta el formulario al registrar
-      },
-      error: () => {
-        this.mensajeRegistroError = 'Error al registrar. Intente con otro correo.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Credenciales inválidas. Verifique sus datos.',
+        });
       }
     });
   }

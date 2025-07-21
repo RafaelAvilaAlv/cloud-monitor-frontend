@@ -1,3 +1,4 @@
+<!-- src/app/auth/login/login.component.html -->
 <div class="login-container">
   <h2>Iniciar Sesión</h2>
   <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
@@ -11,40 +12,9 @@
       <input id="contrasena" type="password" formControlName="contrasena" placeholder="Ingrese su contraseña" />
     </div>
 
-    <div class="error" *ngIf="mensajeError">{{ mensajeError }}</div>
 
     <button type="submit" [disabled]="formularioLogin.invalid">Entrar</button>
   </form>
 
-  <hr />
-
-  <!-- BOTÓN PARA MOSTRAR/OCULTAR FORMULARIO DE REGISTRO -->
-  <button (click)="mostrarRegistro = !mostrarRegistro">
-    {{ mostrarRegistro ? 'Ocultar Registro' : 'Registrarse' }}
-  </button>
-
-  <!-- FORMULARIO DE REGISTRO DESPLEGABLE -->
-  <div *ngIf="mostrarRegistro" style="margin-top: 1rem;">
-    <h2>Formulario de Registro</h2>
-    <form [formGroup]="formularioRegistro" (ngSubmit)="registrarse()">
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input id="nombre" type="text" formControlName="nombre" placeholder="Ingrese su nombre" />
-      </div>
-
-      <div class="form-group">
-        <label for="correoRegistro">Correo:</label>
-        <input id="correoRegistro" type="email" formControlName="correo" placeholder="Ingrese su correo" />
-      </div>
-
-      <div class="form-group">
-        <label for="contrasenaRegistro">Contraseña:</label>
-        <input id="contrasenaRegistro" type="password" formControlName="contrasena" placeholder="Ingrese su contraseña" />
-      </div>
-
-      <div class="error" *ngIf="mensajeRegistroError">{{ mensajeRegistroError }}</div>
-
-      <button type="submit" [disabled]="formularioRegistro.invalid">Registrarse</button>
-    </form>
-  </div>
+  <p>¿No tienes cuenta? <a routerLink="/register">Regístrate</a></p>
 </div>

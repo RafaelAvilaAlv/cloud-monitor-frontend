@@ -13,6 +13,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {path: 'login', loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent)},
+  { path: 'register', loadComponent: () => import('./auth/register/register.component').then(m => m.RegisterComponent) },
  // {path: 'dashboard-admin',loadComponent: () => import('./dashboard-admin/dashboard-admin.component').then(m => m.DashboardAdminComponent)},
   {path: 'dashboard-usuario',loadComponent: () => import('./dashboard-usuario/dashboard-usuario.component').then(m => m.DashboardUsuarioComponent)},
   {path: 'crear-servicio', component: CrearServicioComponent},

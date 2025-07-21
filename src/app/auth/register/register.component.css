@@ -1,0 +1,113 @@
+/* Fondo con degradado tipo "cielo tecnológico" */
+body, :host {
+    background: linear-gradient(to bottom right, #7dd3fc, #a78bfa);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* Contenedor principal */
+  .login-container, .register-container {
+    background-color: #ffffffcc; /* blanco semitransparente */
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 440px;
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Título */
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
+  }
+  
+  /* Grupos del formulario */
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #334155;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  
+  input:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+  
+  /* Botón */
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2563eb;
+  }
+  
+  button[disabled] {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+  }
+  
+  /* Mensajes de error */
+  .error {
+    color: #dc2626;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Links */
+  a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Separador */
+  hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  /* Responsive */
+  @media (max-width: 500px) {
+    .login-container, .register-container {
+      padding: 2rem;
+      margin: 1rem;
+    }
+  }
+  

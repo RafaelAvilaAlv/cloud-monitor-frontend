@@ -1,14 +1,44 @@
-<h2>Registrar nuevo servicio</h2>
+<!-- servicio-registro.component.html -->
+<div class="formulario-alerta">
+  <h2 class="titulo-principal">Registrar nuevo servicio</h2>
+  <form [formGroup]="formulario" (ngSubmit)="registrarServicio()">
+    
+    <div class="form-group">
+      <label for="nombreServicio">Nombre:</label>
+      <input
+        id="nombreServicio"
+        type="text"
+        formControlName="name"
+        placeholder="Ingrese el nombre del servicio"
+      />
+    </div>
 
-<form [formGroup]="formulario" (ngSubmit)="registrarServicio()">
-  <label>Nombre:</label>
-  <input type="text" formControlName="name" required /><br />
+    <div class="form-group">
+      <label for="descripcionServicio">Descripción:</label>
+      <input
+        id="descripcionServicio"
+        type="text"
+        formControlName="cloud"
+        placeholder="Ingrese la descripción del servicio"
+      />
+    </div>
 
-  <label>Descripción:</label>
-  <input type="text" formControlName="cloud" required /><br />
+    <div class="form-group">
+      <label for="urlServicio">URL:</label>
+      <input
+        id="urlServicio"
+        type="text"
+        formControlName="url"
+        placeholder="Ingrese la URL del servicio"
+      />
+    </div>
 
-  <label>URL:</label>
-  <input type="text" formControlName="url" required /><br />
-
-  <button type="submit" [disabled]="formulario.invalid">Registrar</button>
-</form>
+    <button
+      type="submit"
+      class="btn btn-primario"
+      [disabled]="formulario.invalid"
+    >
+      Registrar
+    </button>
+  </form>
+</div>
