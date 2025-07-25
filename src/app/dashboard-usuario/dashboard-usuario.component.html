@@ -37,6 +37,76 @@
   </ng-template>
 </section>
 
+
+<!-- Sección de Servicios -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Servicios registrados</h3>
+
+  <!-- Aquí va tu tabla de servicios existentes -->
+  <!-- ... (tu tabla de servicios va aquí, si no la has quitado) -->
+</section>
+
+<!-- Sección de Instancias GCP -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Instancias en Google Cloud Platform</h3>
+
+ <!-- Formulario para crear instancia -->
+<div style="margin-bottom: 10px;">
+  <input [(ngModel)]="nuevaInstanciaNombre" placeholder="Nombre nueva instancia">
+  <button class="btn btn-primario" (click)="crearInstanciaGCP()">Crear Instancia</button>
+
+  <!-- Mensaje de error -->
+  <p *ngIf="errorCreacion" style="color:red; font-weight:bold; margin: 5px 0 0;">
+    ❌ {{ errorCreacion }}
+  </p>
+
+  <!-- Mensaje de estado de creación -->
+  <p *ngIf="estadoCreacion" style="color: blue; font-weight: bold; margin: 5px 0 0;">
+    {{ estadoCreacion }}
+  </p>
+</div>
+
+<!-- Tabla de instancias GCP -->
+<div *ngIf="gcpInstances.length > 0; else sinInstanciasGcp">
+  <table class="tabla-estilo">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let instancia of gcpInstances">
+        <td>{{ instancia.id }}</td>
+        <td>{{ instancia.name }}</td>
+        <td>{{ instancia.status }}</td>
+        <td>
+          <button class="btn btn-secundario"
+                  (click)="detenerInstanciaGCP(instancia.name)"
+                  [disabled]="instancia.status !== 'RUNNING'">
+            Detener
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Plantilla si no hay instancias -->
+<ng-template #sinInstanciasGcp>
+  <p class="mensaje-vacio">No se encontraron instancias GCP registradas.</p>
+</ng-template>
+
+
+  <ng-template #sinInstanciasGcp>
+    <p class="mensaje-vacio">No se encontraron instancias GCP registradas.</p>
+  </ng-template>
+</section>
+
+
+
 <!-- Botón para mostrar/ocultar formulario -->
 <section class="seccion">
   <button class="btn btn-secundario" (click)="mostrarFormularioAlerta = !mostrarFormularioAlerta">

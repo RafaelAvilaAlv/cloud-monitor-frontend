@@ -163,5 +163,104 @@ cargarLogsPorServicio(): void {
         alert('Ocurrió un error al crear la alerta.');
       }
     });
+    
   }
+
+
+
+  nuevaInstanciaNombre: string = '';
+estadoCreacion: string = '';
+errorCreacion: string = '';
+
+
+/**
+ * Crear nueva instancia en GCP
+ */
+crearInstanciaGCP(): void {
+  const nombre = this.nuevaInstanciaNombre.trim();
+  if (!nombre) return;
+
+  this.estadoCreacion = `Creando "${nombre}"...`;
+  this.errorCreacion = '';
+
+  this.gcpService.createInstance(nombre).subscribe({
+    next: () => {
+      this.estadoCreacion = `⏳ Esperando que "${nombre}" esté disponible...`;
+      this.reintentarCarga(nombre, 1); // 🔁 Reintenta hasta que aparezca
+    },
+    error: (err) => {
+      console.error('Error al crear instancia', err);
+      this.errorCreacion = '❌ Error al crear instancia';
+      setTimeout(() => this.errorCreacion = '', 4000);
+      this.estadoCreacion = '';
+    }
+  });
+}
+
+/**
+ * Detener una instancia específica
+ */
+detenerInstanciaGCP(nombre: string): void {
+  this.estadoCreacion = `Deteniendo "${nombre}"...`;
+  this.errorCreacion = '';
+
+  this.gcpService.stopInstance(nombre).subscribe({
+    next: () => {
+      setTimeout(() => {
+        this.recargarInstanciasGCP();
+        this.estadoCreacion = '';
+      }, 7000); // Espera razonable para detener
+    },
+    error: (err) => {
+      console.error('Error al detener instancia', err);
+      this.estadoCreacion = '';
+      this.errorCreacion = '❌ Error al detener instancia';
+      setTimeout(() => this.errorCreacion = '', 4000);
+    }
+  });
+}
+
+/**
+ * Cargar todas las instancias actuales desde GCP
+ */
+recargarInstanciasGCP(): void {
+  this.gcpService.getGCPInstances().subscribe({
+    next: (res) => this.gcpInstances = res.instances,
+    error: (err) => {
+      console.error('Error al recargar instancias', err);
+      this.errorCreacion = '❌ Error al obtener instancias';
+      setTimeout(() => this.errorCreacion = '', 4000);
+    }
+  });
+}
+
+/**
+ * Reintenta encontrar la instancia recién creada hasta 5 veces
+ */
+reintentarCarga(nombre: string, intento: number): void {
+  if (intento > 5) {
+    this.estadoCreacion = `⚠️ No se encontró la instancia "${nombre}" tras varios intentos.`;
+    return;
+  }
+
+  setTimeout(() => {
+    this.gcpService.getGCPInstances().subscribe({
+      next: (res) => {
+        this.gcpInstances = res.instances;
+        const encontrada = this.gcpInstances.find(inst => inst.name === nombre);
+
+        if (encontrada) {
+          this.estadoCreacion = `✅ Instancia "${nombre}" creada con estado: ${encontrada.status}`;
+        } else {
+          this.estadoCreacion = `🔄 Esperando que aparezca "${nombre}"... intento ${intento}`;
+          this.reintentarCarga(nombre, intento + 1);
+        }
+      },
+      error: () => {
+        this.estadoCreacion = '❌ Error al recargar instancias';
+      }
+    });
+  }, 5000); // Espera 5 segundos entre cada intento
+}
+
 }
