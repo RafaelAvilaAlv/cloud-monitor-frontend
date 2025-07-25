@@ -165,6 +165,35 @@
 <section class="seccion">
   <h3 class="seccion-titulo">Servicios registrados</h3>
 
+  <!-- Sección de Instancias GCP -->
+<section class="seccion">
+  <h3 class="seccion-titulo">Instancias en Google Cloud Platform</h3>
+
+  <div *ngIf="gcpInstances.length > 0; else sinInstanciasGcp">
+    <table class="tabla-estilo">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let instancia of gcpInstances">
+          <td>{{ instancia.id }}</td>
+          <td>{{ instancia.name }}</td>
+          <td>{{ instancia.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinInstanciasGcp>
+    <p class="mensaje-vacio">No se encontraron instancias GCP registradas.</p>
+  </ng-template>
+</section>
+
+
   <div *ngIf="servicios.length > 0; else sinServicios">
     <table class="tabla-estilo">
       <thead>
